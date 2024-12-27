@@ -1,0 +1,1 @@
+streamlit run Performance_of_Students_app.py
