@@ -26,17 +26,17 @@ def main_page():
     st.title("Aplikasi Analisis Data Siswa")
 
     # Sidebar untuk navigasi
-    st.sidebar.header(f"Selamat datang! ^_^")
+    st.sidebar.header("Selamat datang! ^_^")
 
-    if st.sidebar.button("📂 Dashboard"):
+    if st.sidebar.button("📂 Dashboard", key="btn_dashboard"):
         st.session_state["active_menu"] = "dashboard"
-    if st.sidebar.button("📂 Data Siswa"):
+    if st.sidebar.button("📂 Data Siswa", key="btn_data_siswa"):
         st.session_state["active_menu"] = "data_siswa"
-    if st.sidebar.button("📂 Data Math Score"):
+    if st.sidebar.button("📂 Data Math Score", key="btn_data_math"):
         st.session_state["active_menu"] = "data_math"
-    if st.sidebar.button("📂 Data Reading Score"):
+    if st.sidebar.button("📂 Data Reading Score", key="btn_data_reading"):
         st.session_state["active_menu"] = "data_reading"
-    if st.sidebar.button("📂 Data Writing Score"):
+    if st.sidebar.button("📂 Data Writing Score", key="btn_data_writing"):
         st.session_state["active_menu"] = "data_writing"
 
     # Menampilkan konten
@@ -63,7 +63,7 @@ def show_dashboard():
         if "num_rows" not in st.session_state:
             st.session_state["num_rows"] = 5  # Set default value for slider
 
-        st.session_state["num_rows"] = st.sidebar.slider("Pilih jumlah baris yang ditampilkan:", 1, total_students, st.session_state["num_rows"])
+        st.session_state["num_rows"] = st.sidebar.slider("Pilih jumlah baris yang ditampilkan:", 1, total_students, st.session_state["num_rows"], key="slider_num_rows")
         
         st.sidebar.text("===================================")
         
@@ -88,8 +88,8 @@ def show_dashboard():
             if not box_x_columns:
                 st.error("Tidak ada kolom yang tersedia untuk kategori Box Plot selain 'math score', 'reading score', dan 'writing score'.")
             else:
-                box_y = st.sidebar.selectbox("Nilai", valid_columns, index=0)
-                box_x = st.sidebar.selectbox("Kategori", box_x_columns)
+                box_y = st.sidebar.selectbox("Nilai", valid_columns, index=0, key="box_y")
+                box_x = st.sidebar.selectbox("Kategori", box_x_columns, key="box_x")
 
                 st.subheader("Box Plot")
                 fig_box = px.box(
@@ -108,7 +108,7 @@ def show_dashboard():
                 st.sidebar.header("Bar Plot")
 
                 # Sumbu X
-                bar_x = st.sidebar.selectbox("X-axis", valid_columns, index=0)
+                bar_x = st.sidebar.selectbox("X-axis", valid_columns, index=0, key="bar_x")
 
                 st.subheader("Bar Plot")
                 fig_bar = px.histogram(
@@ -130,13 +130,13 @@ def show_dashboard():
                 st.sidebar.text("===================================")
 
                 st.sidebar.header("Scatter Plot")
-                x_axis = st.sidebar.selectbox("X-axis", valid_columns, index=0)
-                y_axis = st.sidebar.selectbox("Y-axis", valid_columns, index=1)
-                category_column = st.sidebar.selectbox("Kategori berdasarkan Warna", available_columns)
-                filter_column = st.sidebar.selectbox("Filter berdasarkan Kolom", available_columns)
+                x_axis = st.sidebar.selectbox("X-axis", valid_columns, index=0, key="scatter_x_axis")
+                y_axis = st.sidebar.selectbox("Y-axis", valid_columns, index=1, key="scatter_y_axis")
+                category_column = st.sidebar.selectbox("Kategori berdasarkan Warna", available_columns, key="scatter_category_column")
+                filter_column = st.sidebar.selectbox("Filter berdasarkan Kolom", available_columns, key="scatter_filter_column")
                 
                 unique_values = data[filter_column].dropna().unique().tolist()
-                selected_filter = st.sidebar.selectbox(f"Filter {filter_column}:", ["Semua"] + unique_values)
+                selected_filter = st.sidebar.selectbox(f"Filter {filter_column}:", ["Semua"] + unique_values, key="scatter_filter_value")
 
                 if selected_filter != "Semua":
                     filtered_data = data[data[filter_column] == selected_filter]
@@ -162,6 +162,17 @@ def show_dashboard():
                 st.subheader("Filtered Data")
                 st.dataframe(filtered_data)
 
+                st.sidebar.header("MODE")
+                mode_score_math = data['math score'].mode().iloc[0]
+                mode_score_read = data['reading score'].mode().iloc[0]
+                mode_score_write = data['writing score'].mode().iloc[0]
+                
+                st.sidebar.text(f"Math Score: {mode_score_math:.2f}")
+                st.sidebar.text(f"Reading Score: {mode_score_read:.2f}")
+                st.sidebar.text(f"Writing Score: {mode_score_write:.2f}")
+
+                st.sidebar.text("===================================")
+
                 st.sidebar.header("AVERAGE")
                 average_math = data["math score"].mean()
                 average_reading = data["reading score"].mean()
@@ -170,15 +181,6 @@ def show_dashboard():
                 st.sidebar.text(f"Math Score: {average_math:.2f}")
                 st.sidebar.text(f"Reading Score: {average_reading:.2f}")
                 st.sidebar.text(f"Writing Score: {average_writing:.2f}")
-
-                st.sidebar.header("MODE")
-                mode_score_math_ = data['math score'].mode().iloc[0]
-                mode_score_read_ = data['reading score'].mode().iloc[0]
-                mode_score_write_ = data['writing score'].mode().iloc[0]
-                
-                st.sidebar.text(f"Math Score: {mode_score_math_:.2f}")
-                st.sidebar.text(f"Reading Score: {mode_score_read_:.2f}")
-                st.sidebar.text(f"Writing Score: {mode_score_write_:.2f}")
 
 def show_data_siswa():
     st.subheader("Data Siswa")
@@ -192,7 +194,7 @@ def show_data_siswa():
 
         st.session_state["num_rows_siswa"] = st.sidebar.slider(
             "Pilih jumlah baris yang ditampilkan:",
-            1, total_students, st.session_state["num_rows_siswa"]
+            1, total_students, st.session_state["num_rows_siswa"], key="slider_num_rows_siswa"
         )
 
         data_siswa = pd.DataFrame({
@@ -261,13 +263,13 @@ def show_data_math_score():
         min_score = data['math score'].min()
         max_score = data['math score'].max()
         avg_score = data['math score'].mean()
-        mode_score = data['writing score'].mode().iloc[0]
+        mode_score_math_ = data['math score'].mode().iloc[0]
 
         st.sidebar.header("STATISTIK")
         st.sidebar.write(f"Minimum: {min_score}")
         st.sidebar.write(f"Maximum: {max_score}")
         st.sidebar.write(f"Average: {avg_score:.2f}")
-        st.sidebar.write(f"Mode: {mode_score}")
+        st.sidebar.write(f"Mode: {mode_score_math_}")
 
 def show_data_reading_score():
     st.subheader("Data Reading Score")
@@ -297,13 +299,13 @@ def show_data_reading_score():
         min_score_read = data['reading score'].min()
         max_score_read = data['reading score'].max()
         avg_score_read = data['reading score'].mean()
-        mode_score_reading = data['writing score'].mode().iloc[0]
+        mode_score_reading_ = data['reading score'].mode().iloc[0]
 
         st.sidebar.header("STATISTIK")
         st.sidebar.write(f"Minimum: {min_score_read}")
         st.sidebar.write(f"Maximum: {max_score_read}")
         st.sidebar.write(f"Average: {avg_score_read:.2f}")
-        st.sidebar.write(f"Mode: {mode_score_reading}")
+        st.sidebar.write(f"Mode: {mode_score_reading_}")
 
 def show_data_writing_score():
     st.subheader("Data Writing Score")
