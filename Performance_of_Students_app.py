@@ -108,7 +108,7 @@ def show_dashboard():
                 st.sidebar.header("Bar Plot")
 
                 # Sumbu X
-                bar_x = st.sidebar.selectbox("Kolom untuk Sumbu X (Skor)", valid_columns, index=0)
+                bar_x = st.sidebar.selectbox("X-axis", valid_columns, index=0)
 
                 st.subheader("Bar Plot")
                 fig_bar = px.histogram(
@@ -170,6 +170,15 @@ def show_dashboard():
                 st.sidebar.text(f"Math Score: {average_math:.2f}")
                 st.sidebar.text(f"Reading Score: {average_reading:.2f}")
                 st.sidebar.text(f"Writing Score: {average_writing:.2f}")
+
+                st.sidebar.header("MODE")
+                mode_score_math = data['math score'].mode().iloc[0]
+                mode_score_read = data['reading score'].mode().iloc[0]
+                mode_score_write = data['writing score'].mode().iloc[0]
+                
+                st.sidebar.text(f"Math Score: {mode_score_math:.2f}")
+                st.sidebar.text(f"Reading Score: {mode_score_read:.2f}")
+                st.sidebar.text(f"Writing Score: {mode_score_write:.2f}")
 
 def show_data_siswa():
     st.subheader("Data Siswa")
@@ -252,11 +261,13 @@ def show_data_math_score():
         min_score = data['math score'].min()
         max_score = data['math score'].max()
         avg_score = data['math score'].mean()
+        mode_score = data['writing score'].mode().iloc[0]
 
         st.sidebar.header("STATISTIK")
         st.sidebar.write(f"Minimum: {min_score}")
         st.sidebar.write(f"Maximum: {max_score}")
         st.sidebar.write(f"Average: {avg_score:.2f}")
+        st.sidebar.write(f"Mode: {mode_score}")
 
 def show_data_reading_score():
     st.subheader("Data Reading Score")
@@ -286,11 +297,13 @@ def show_data_reading_score():
         min_score_read = data['reading score'].min()
         max_score_read = data['reading score'].max()
         avg_score_read = data['reading score'].mean()
+        mode_score_reading = data['writing score'].mode().iloc[0]
 
         st.sidebar.header("STATISTIK")
         st.sidebar.write(f"Minimum: {min_score_read}")
         st.sidebar.write(f"Maximum: {max_score_read}")
         st.sidebar.write(f"Average: {avg_score_read:.2f}")
+        st.sidebar.write(f"Mode: {mode_score_reading}")
 
 def show_data_writing_score():
     st.subheader("Data Writing Score")
@@ -321,10 +334,12 @@ def show_data_writing_score():
         min_score_writing = data['writing score'].min()
         max_score_writing = data['writing score'].max()
         avg_score_writing = data['writing score'].mean()
+        mode_score_writing = data['writing score'].mode().iloc[0]
 
         st.sidebar.header("STATISTIK")
         st.sidebar.write(f"Minimum: {min_score_writing}")
         st.sidebar.write(f"Maximum: {max_score_writing}")
         st.sidebar.write(f"Average: {avg_score_writing:.2f}")
+        st.sidebar.write(f"Mode: {mode_score_writing}")
 
 main_page()
