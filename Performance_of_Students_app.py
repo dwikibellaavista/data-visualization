@@ -1,14 +1,6 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
-import plotly
-
-
-# Menampilkan versi library
-st.sidebar.title("📋 Versi Library")
-st.sidebar.write(f"Streamlit: {st.__version__}")
-st.sidebar.write(f"Pandas: {pd.__version__}")
-st.sidebar.write(f"Plotly: {plotly.__version__}")
 
 # Mengatur CSS untuk tombol
 st.markdown(
