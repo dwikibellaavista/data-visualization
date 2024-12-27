@@ -196,6 +196,33 @@ def show_data_siswa():
         st.dataframe(data_siswa.head(st.session_state["num_rows_siswa"]))
         st.write(f"Jumlah baris yang ditampilkan: {st.session_state['num_rows_siswa']}")
 
+        st.sidebar.text("===================================")
+        
+        st.sidebar.header("FREQUENCY")
+
+        # Frequency of Gender
+        st.sidebar.markdown("**Gender:**")
+        gender_counts = data['gender'].value_counts()
+        for category, count in gender_counts.items():
+            st.sidebar.write(f"{category}: {count}")
+
+        # Frequency of Race/Ethnicity
+        st.sidebar.markdown("**Race/Ethnicity**")
+        race_counts = data['race/ethnicity'].value_counts()
+        for category, count in race_counts.items():
+            st.sidebar.write(f"{category}: {count}")
+
+        # Frequency of Parental Level of Education
+        st.sidebar.markdown("**Parental Level of Education**")
+        education_counts = data['parental level of education'].value_counts()
+        for category, count in education_counts.items():
+            st.sidebar.write(f"{category}: {count}")
+        
+        st.sidebar.text("===================================")
+
+        st.sidebar.header("TOTAL SISWA")
+        st.sidebar.write(f" Total: {total_students} siswa")
+
 def show_data_math_score():
     st.subheader("Data Math Score")
 
@@ -220,6 +247,17 @@ def show_data_math_score():
         st.dataframe(data_math.head(st.session_state["num_rows_math"]))
         st.write(f"Jumlah baris yang ditampilkan: {st.session_state['num_rows_math']}")
 
+        st.sidebar.text("===================================")
+
+        min_score = data['math score'].min()
+        max_score = data['math score'].max()
+        avg_score = data['math score'].mean()
+
+        st.sidebar.header("STATISTIK")
+        st.sidebar.write(f"Minimum: {min_score}")
+        st.sidebar.write(f"Maximum: {max_score}")
+        st.sidebar.write(f"Average: {avg_score:.2f}")
+
 def show_data_reading_score():
     st.subheader("Data Reading Score")
     data = read_data("exams.csv")
@@ -242,6 +280,17 @@ def show_data_reading_score():
         st.write("Menampilkan data siswa:")
         st.dataframe(data_reading.head(st.session_state["num_rows_read"]))
         st.write(f"Jumlah baris yang ditampilkan: {st.session_state['num_rows_read']}")
+
+        st.sidebar.text("===================================")
+
+        min_score_read = data['reading score'].min()
+        max_score_read = data['reading score'].max()
+        avg_score_read = data['reading score'].mean()
+
+        st.sidebar.header("STATISTIK")
+        st.sidebar.write(f"Minimum: {min_score_read}")
+        st.sidebar.write(f"Maximum: {max_score_read}")
+        st.sidebar.write(f"Average: {avg_score_read:.2f}")
 
 def show_data_writing_score():
     st.subheader("Data Writing Score")
@@ -267,6 +316,15 @@ def show_data_writing_score():
         st.dataframe(data_write.head(st.session_state["num_rows_write"]))
         st.write(f"Jumlah baris yang ditampilkan: {st.session_state['num_rows_write']}")
 
+        st.sidebar.text("===================================")
 
+        min_score_writing = data['writing score'].min()
+        max_score_writing = data['writing score'].max()
+        avg_score_writing = data['writing score'].mean()
+
+        st.sidebar.header("STATISTIK")
+        st.sidebar.write(f"Minimum: {min_score_writing}")
+        st.sidebar.write(f"Maximum: {max_score_writing}")
+        st.sidebar.write(f"Average: {avg_score_writing:.2f}")
 
 main_page()
