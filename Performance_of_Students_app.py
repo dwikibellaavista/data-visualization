@@ -172,13 +172,13 @@ def show_dashboard():
                 st.sidebar.text(f"Writing Score: {average_writing:.2f}")
 
                 st.sidebar.header("MODE")
-                mode_score_math = data['math score'].mode().iloc[0]
-                mode_score_read = data['reading score'].mode().iloc[0]
-                mode_score_write = data['writing score'].mode().iloc[0]
+                mode_score_math_ = data['math score'].mode().iloc[0]
+                mode_score_read_ = data['reading score'].mode().iloc[0]
+                mode_score_write_ = data['writing score'].mode().iloc[0]
                 
-                st.sidebar.text(f"Math Score: {mode_score_math:.2f}")
-                st.sidebar.text(f"Reading Score: {mode_score_read:.2f}")
-                st.sidebar.text(f"Writing Score: {mode_score_write:.2f}")
+                st.sidebar.text(f"Math Score: {mode_score_math_:.2f}")
+                st.sidebar.text(f"Reading Score: {mode_score_read_:.2f}")
+                st.sidebar.text(f"Writing Score: {mode_score_write_:.2f}")
 
 def show_data_siswa():
     st.subheader("Data Siswa")
