@@ -88,8 +88,8 @@ def show_dashboard():
             if not box_x_columns:
                 st.error("Tidak ada kolom yang tersedia untuk kategori Box Plot selain 'math score', 'reading score', dan 'writing score'.")
             else:
-                box_y = st.sidebar.selectbox("Nilai untuk Box Plot", valid_columns, index=0)
-                box_x = st.sidebar.selectbox("Kategori untuk Box Plot", box_x_columns)
+                box_y = st.sidebar.selectbox("Nilai", valid_columns, index=0)
+                box_x = st.sidebar.selectbox("Kategori", box_x_columns)
 
                 st.subheader("Box Plot")
                 fig_box = px.box(
@@ -115,7 +115,7 @@ def show_dashboard():
                     data,
                     x=bar_x,
                     nbins=10,  # Jumlah bin untuk membagi rentang nilai
-                    title=f"Bar Plot Frekuensi: {bar_x}",
+                    title=f"Bar Plot: {bar_x}",
                     labels={bar_x: bar_x, 'count': 'Frekuensi'},
                 )
                 fig_bar.update_traces(marker=dict(color='rgba(135, 206, 250, 0.8)'))  # Warna biru soft dengan transparansi
@@ -159,7 +159,7 @@ def show_dashboard():
                 fig_scatter.update_layout(dragmode='pan')  # Mode interaktif
                 st.plotly_chart(fig_scatter)
 
-                st.subheader("Data setelah Filter")
+                st.subheader("Filtered Data")
                 st.dataframe(filtered_data)
 
                 st.sidebar.header("AVERAGE")
